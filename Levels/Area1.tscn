@@ -1,0 +1,81 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Actors/Player.tscn" type="PackedScene" id=1]
+
+[sub_resource type="Curve3D" id=1]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, -14.5078, 5.12131, 0.731616, 0, 0, 0, 0, 0, 0, -10.5228, 3.72195, -0.513688, 0, 0, 0, 0, 0, 0, -7.06711, 2.04398, 2.13259, 0, 0, 0, 0, 0, 0, -2.73967, 0.607086, 1.04294, 0, 0, 0, 0, 0, 0, 1.49437, 0.202362, 3.0977, 0, 0, 0, 0, 0, 0, 5.13688, 0.23349, 0.451423, 0, 0, 0, 0, 0, 0, 11.2525, -2.47533, -1.69672, 0, 0, 0, 0, 0, 0, 16.9127, -2.18507, -0.317932, 0, 0, 0, 0, 0, 0, 23.734, -3.49127, -0.81488, 0, 0, 0, 0, 0, 0, 34.9093, -3.63641, -5.9686, 0, 0, 0, 0, 0, 0, 45.3589, -5.37801, -1.46948, 0, 0, 0, 0, 0, 0, 59.2918, -5.08775, -3.06595, 0, 0, 0, 0, 0, 0, 75.3928, -9.57483, -7.27482 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 )
+}
+
+[sub_resource type="ConvexPolygonShape" id=2]
+points = PoolVector3Array( -20, 1, 20, 20, 1, -20, 20, 1, 20, -20, 1, -20, -20, -1, 20, 20, -1, -20, 20, -1, 20, -20, -1, -20, 20, 1, 20, -20, 1, -20, 20, 1, -20, -20, 1, 20, 20, -1, 20, -20, -1, -20, 20, -1, -20, -20, -1, 20, 20, 1, 20, -20, -1, 20, -20, 1, 20, 20, -1, 20, 20, 1, -20, -20, -1, -20, -20, 1, -20, 20, -1, -20 )
+
+[sub_resource type="CubeMesh" id=3]
+size = Vector3( 40, 2, 40 )
+
+[sub_resource type="ProceduralSky" id=4]
+sky_top_color = Color( 0.00784314, 0.388235, 0.427451, 1 )
+sky_horizon_color = Color( 0.0117647, 0.541176, 0.6, 1 )
+sky_curve = 1.25
+ground_bottom_color = Color( 1, 1, 1, 1 )
+ground_horizon_color = Color( 0.0117647, 0.541176, 0.6, 1 )
+ground_curve = 1.25
+sun_latitude = 25.0
+sun_longitude = 50.0
+sun_angle_min = 5.0
+sun_angle_max = 10.0
+
+[sub_resource type="Environment" id=5]
+background_mode = 2
+background_sky = SubResource( 4 )
+
+[node name="Spatial" type="Spatial"]
+
+[node name="Path" type="Path" parent="."]
+transform = Transform( 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0 )
+curve = SubResource( 1 )
+
+[node name="CSGPolygon" type="CSGPolygon" parent="Path"]
+use_collision = true
+collision_layer = 16
+collision_mask = 2147483648
+invert_faces = true
+polygon = PoolVector2Array( 2, 1, -2, 1, -5, 3, -3, 0, 3, 0, 5, 3 )
+mode = 2
+path_node = NodePath("..")
+path_interval = 2.0
+path_rotation = 1
+path_local = false
+path_continuous_u = false
+path_joined = false
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.0648, 18, 0 )
+
+[node name="StaticBody" type="StaticBody" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 15, 0 )
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
+shape = SubResource( 2 )
+
+[node name="MeshInstance" type="MeshInstance" parent="StaticBody"]
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource( 5 )
+
+[node name="Sun" type="DirectionalLight" parent="WorldEnvironment"]
+transform = Transform( 0.642788, 0.323744, 0.694272, -2.95313e-07, -0.906308, 0.422618, 0.766044, -0.271654, -0.582563, 0, 20, 0 )
+light_energy = 0.5
+shadow_enabled = true
+shadow_bias = 0.07
+directional_shadow_mode = 0
+directional_shadow_split_1 = 0.2
+directional_shadow_split_2 = 0.7
+directional_shadow_split_3 = 0.9
+directional_shadow_blend_splits = true
+directional_shadow_normal_bias = 1.4
