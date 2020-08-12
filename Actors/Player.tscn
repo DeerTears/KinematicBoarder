@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Actors/Scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://Actors/Scripts/Rider.gd" type="Script" id=2]
@@ -22,6 +22,10 @@ size = Vector3( 0.5, 0.5, 0.1 )
 
 [sub_resource type="PrismMesh" id=6]
 size = Vector3( 0.5, 0.5, 0.1 )
+
+[sub_resource type="CylinderMesh" id=7]
+top_radius = 0.05
+bottom_radius = 0.05
 
 [node name="Player" type="Spatial"]
 script = ExtResource( 1 )
@@ -88,6 +92,11 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 [node name="NormalArrow" type="MeshInstance" parent="NormalJoint"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
 mesh = SubResource( 6 )
+material/0 = null
+
+[node name="MeshInstance" type="MeshInstance" parent="NormalJoint"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75282, 0 )
+mesh = SubResource( 7 )
 material/0 = null
 
 [node name="MagnitudeJoint" type="Spatial" parent="."]
