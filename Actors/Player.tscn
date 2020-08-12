@@ -1,12 +1,19 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Actors/Scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://Actors/Scripts/Rider.gd" type="Script" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=3]
 
 [sub_resource type="CubeMesh" id=1]
 size = Vector3( 0.5, 1, 0.5 )
 
+[sub_resource type="SpatialMaterial" id=8]
+flags_unshaded = true
+albedo_texture = ExtResource( 3 )
+uv1_offset = Vector3( 0.5, 0, 0 )
+
 [sub_resource type="SphereMesh" id=2]
+material = SubResource( 8 )
 radius = 0.5
 height = 1.0
 radial_segments = 16
@@ -26,6 +33,8 @@ size = Vector3( 0.5, 0.5, 0.1 )
 [sub_resource type="CylinderMesh" id=7]
 top_radius = 0.05
 bottom_radius = 0.05
+radial_segments = 4
+rings = 1
 
 [node name="Player" type="Spatial"]
 script = ExtResource( 1 )
@@ -73,7 +82,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.45, 0 )
 shape = SubResource( 4 )
 
 [node name="CamJoint" type="Spatial" parent="."]
-transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 1, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 
 [node name="Camera" type="Camera" parent="CamJoint"]
 transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 5, 0, 0 )
@@ -82,7 +91,7 @@ fov = 80.0
 far = 500.0
 
 [node name="EditorArrow" type="MeshInstance" parent="."]
-transform = Transform( -1.62921e-07, 1, 1.62921e-07, 0, -1.62921e-07, 1, 1, 1.62921e-07, 2.65431e-14, 1, 0.5, 0 )
+transform = Transform( 7.54982e-08, -1, -1.62921e-07, 0, -1.62921e-07, 1, -1, -7.54982e-08, -1.23001e-14, -1, 0.5, 0 )
 mesh = SubResource( 5 )
 material/0 = null
 
@@ -94,7 +103,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0 )
 mesh = SubResource( 6 )
 material/0 = null
 
-[node name="MeshInstance" type="MeshInstance" parent="NormalJoint"]
+[node name="ArrowStem" type="MeshInstance" parent="NormalJoint"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75282, 0 )
 mesh = SubResource( 7 )
 material/0 = null
