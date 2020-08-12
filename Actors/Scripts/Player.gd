@@ -25,7 +25,7 @@ func _ready():
 
 func init():
 	CameraNode.set_translation(Vector3(10,0,0))
-	CamJoint.rotation_degrees = Vector3(0, 0, -15)
+	CamJoint.rotation_degrees = Vector3(0, 0, 15)
 	if invert_y:
 		y_inversion = -1
 	else:
