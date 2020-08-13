@@ -4,7 +4,7 @@ export var input_strength = Vector2.ZERO
 
 # stats
 export var accel: float = 800.0
-export var edging: float = 3.0
+export var edging: float = 2.0
 
 # clamps
 var max_speed: float = 300.0
@@ -41,7 +41,8 @@ func _physics_process(delta):
 		rotation.x = rotation.move_toward(Vector3.UP, delta).x
 		rotation.z = rotation.move_toward(Vector3.UP, delta).z
 		turn_amount *= 0.5
-	rotate_object_local(Vector3.UP, turn_amount)
+	if input_strength.x != 0:
+		rotate_object_local(Vector3.UP, turn_amount)
 	
 	# next: take my intended speed and rotate it to where I'm facing
 	var rotated_magnitude = Vector3.ZERO
