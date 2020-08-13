@@ -17,6 +17,9 @@ var velocity = Vector3.ZERO
 var dampening = 0.9825 # todo: make steering behaviour
 export var current_floor_normal = Vector3.UP
 
+# turning
+onready var Meshes = $Meshes
+
 func _physics_process(delta):
 	input_strength = input_strength.normalized()
 	
@@ -56,4 +59,3 @@ func _physics_process(delta):
 	move_and_slide(velocity, current_floor_normal, false, 4, 0.8, false)
 	velocity.x *= dampening
 	velocity.z *= dampening
-	print(rotation.y)

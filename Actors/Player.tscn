@@ -2,7 +2,14 @@
 
 [ext_resource path="res://Actors/Scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://Actors/Scripts/Rider.gd" type="Script" id=2]
-[ext_resource path="res://Materials/Actors/sanicface.png" type="Texture" id=3]
+[ext_resource path="res://icon.png" type="Texture" id=3]
+
+[sub_resource type="CapsuleShape" id=5]
+radius = 0.5
+
+[sub_resource type="CapsuleMesh" id=9]
+radius = 0.5
+radial_segments = 8
 
 [sub_resource type="CubeMesh" id=1]
 size = Vector3( 0.5, 1, 0.5 )
@@ -25,9 +32,6 @@ rings = 8
 [sub_resource type="CubeMesh" id=4]
 size = Vector3( 1, 0.1, 3 )
 
-[sub_resource type="CapsuleShape" id=5]
-radius = 0.5
-
 [sub_resource type="PrismMesh" id=6]
 size = Vector3( 0.5, 0.5, 0.1 )
 
@@ -41,9 +45,6 @@ height = 1.0
 radial_segments = 4
 rings = 1
 
-[sub_resource type="PrismMesh" id=9]
-size = Vector3( 0.5, 0.5, 0.1 )
-
 [node name="Player" type="Spatial"]
 script = ExtResource( 1 )
 
@@ -51,21 +52,6 @@ script = ExtResource( 1 )
 transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, 0, 0, 0 )
 collision_mask = 16
 script = ExtResource( 2 )
-
-[node name="MeshBody" type="MeshInstance" parent="Rider"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0 )
-mesh = SubResource( 1 )
-material/0 = null
-
-[node name="MeshHead" type="MeshInstance" parent="Rider"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
-mesh = SubResource( 3 )
-material/0 = null
-
-[node name="MeshBoard" type="MeshInstance" parent="Rider"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
-mesh = SubResource( 4 )
-material/0 = null
 
 [node name="TransformCam" type="RemoteTransform" parent="Rider"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
@@ -79,15 +65,36 @@ remote_path = NodePath("../../NormalJoint")
 update_rotation = false
 update_scale = false
 
-[node name="TransformMagArrow" type="RemoteTransform" parent="Rider"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
-remote_path = NodePath("../../MagnitudeJoint")
-update_rotation = false
-update_scale = false
-
 [node name="CollisionShape" type="CollisionShape" parent="Rider"]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0.45, 0 )
 shape = SubResource( 5 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Rider"]
+transform = Transform( 1, -1.62921e-07, -1.62921e-07, 1.62921e-07, -4.37114e-08, 1, -1.62921e-07, -1, -4.37114e-08, 0, 0.45, 0 )
+mesh = SubResource( 9 )
+material/0 = null
+
+[node name="Meshes" type="Spatial" parent="Rider"]
+
+[node name="Body" type="MeshInstance" parent="Rider/Meshes"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, 0 )
+mesh = SubResource( 1 )
+material/0 = null
+
+[node name="Head" type="MeshInstance" parent="Rider/Meshes"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="Board" type="MeshInstance" parent="Rider/Meshes"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="EditorArrow" type="MeshInstance" parent="Rider/Meshes"]
+transform = Transform( -1, 8.74228e-08, 1.42432e-14, 0, -1.62921e-07, 1, 8.74228e-08, 1, 1.62921e-07, 1.62921e-07, 0.5, 1 )
+mesh = SubResource( 6 )
+material/0 = null
 
 [node name="CamJoint" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
@@ -97,11 +104,6 @@ transform = Transform( -1.62921e-07, 0, 1, 0, 1, 0, -1, 0, -1.62921e-07, 5, 0, 0
 current = true
 fov = 80.0
 far = 500.0
-
-[node name="EditorArrow" type="MeshInstance" parent="."]
-transform = Transform( 7.54982e-08, -1, -1.62921e-07, 0, -1.62921e-07, 1, -1, -7.54982e-08, -1.23001e-14, -1, 0.5, 0 )
-mesh = SubResource( 6 )
-material/0 = null
 
 [node name="NormalJoint" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
@@ -114,15 +116,6 @@ material/0 = null
 [node name="ArrowStem" type="MeshInstance" parent="NormalJoint"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75282, 0 )
 mesh = SubResource( 8 )
-material/0 = null
-
-[node name="MagnitudeJoint" type="Spatial" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
-visible = false
-
-[node name="MagnitudeArrow" type="MeshInstance" parent="MagnitudeJoint"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
-mesh = SubResource( 7 )
 material/0 = null
 
 [node name="UI" type="CanvasLayer" parent="."]
@@ -195,11 +188,3 @@ size_flags_vertical = 10
 text = "boost exists"
 align = 2
 valign = 1
-
-[node name="StoredRotation" type="Position3D" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
-
-[node name="MeshInstance" type="MeshInstance" parent="StoredRotation"]
-transform = Transform( -4.37114e-08, -1, 0, -4.37114e-08, 1.91069e-15, 1, -1, 4.37114e-08, -4.37114e-08, 0, -5.96046e-08, 0 )
-mesh = SubResource( 9 )
-material/0 = null

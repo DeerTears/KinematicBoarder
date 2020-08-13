@@ -35,7 +35,7 @@ func init():
 	else:
 		x_inversion = -1
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	$EditorArrow.visible = false
+	$Rider/Meshes/EditorArrow.visible = false
 
 func _input(event):
 	# joypad camera
