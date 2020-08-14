@@ -4,31 +4,28 @@ onready var Rider = $Rider
 onready var CamJoint = $CamJoint
 onready var CameraNode = $CamJoint/Camera
 
-# camera settings to be access by settings menu
+# camera settings
 export var joypad_sens: float = 0.1
 export var mouse_sens: float = 0.01
 export var zoom_speed: float = 0.4
+export var invert_x: bool = false
+export var invert_y: bool = false
 
 # other camera vars
 var joycam_step: Vector3 = Vector3.ZERO
 var zoom_extent = {"in": 5, "out": 15}
-export var invert_x: bool = false
-export var invert_y: bool = false
-# uglier but simpler version of enums (sorry)
-var y_inversion: int = -1
-var x_inversion: int = -1
+var y_inversion: int = -1 # some lazy enums
+var x_inversion: int = -1 # some lazy enums
 
-# race variables
 export var stage_of_race: String = "ready"
 
 func _ready():
 	init()
 
-
 func init():
 	CameraNode.set_translation(Vector3(10,0,0))
-	CamJoint.rotation_degrees = Vector3(0, 0, 15)
-	if invert_y:
+	CamJoint.rotation_degrees = Vector3(180, 0, 15)
+	if invert_y: # I should learn how to use enums here instead
 		y_inversion = -1
 	else:
 		y_inversion = 1
@@ -41,12 +38,11 @@ func init():
 	$InfoBillboard/Rank.visible = false # because we're the player
 	$InfoBillboard/Time.visible = false
 
-func _input(event):
+func _input(event): # input only handles camera stuff
 	# joypad camera
 	if event.is_action("camera_right") or event.is_action("camera_left"):
 		var _strength = (event.get_action_strength("camera_right") - event.get_action_strength("camera_left"))
 		joycam_step.y = _strength * joypad_sens * x_inversion
-	
 	if event.is_action("camera_up") or event.is_action("camera_down"):
 		var _strength = (event.get_action_strength("camera_up") - event.get_action_strength("camera_down"))
 		joycam_step.z = _strength * joypad_sens * y_inversion
@@ -55,7 +51,6 @@ func _input(event):
 	if event is InputEventMouseMotion:
 		CamJoint.rotation.y += event.relative.x * mouse_sens * x_inversion
 		CamJoint.rotation.z += event.relative.y * mouse_sens * y_inversion
-		CamJoint.rotation.z = clamp(CamJoint.rotation.z, deg2rad(-85), deg2rad(70))
 
 	# zooming
 	if event.is_action_pressed("zoom_out"):
@@ -65,7 +60,6 @@ func _input(event):
 		CameraNode.translation.x -= zoom_speed
 		CameraNode.translation.x = clamp(CameraNode.translation.x, zoom_extent["in"], zoom_extent["out"])
 	
-	# debug
 	if event.is_action("reset"):
 # warning-ignore:return_value_discarded
 		get_tree().reload_current_scene()
@@ -77,10 +71,14 @@ func _input(event):
 
 
 func _process(_delta):
+	# move and clamp camera
 	CamJoint.rotation += joycam_step
-	# debug
+	CamJoint.rotation.z = clamp(CamJoint.rotation.z, deg2rad(-85), deg2rad(70))
+	
+	# debugging floor normals
 	$NormalJoint.rotation = Rider.current_floor_normal
 
+	# movement!
 	if Input.is_action_pressed("fwd"):
 		Rider.input_strength.y = Input.get_action_strength("fwd")
 	elif Input.is_action_pressed("back"):
@@ -90,6 +88,8 @@ func _process(_delta):
 	elif Input.is_action_pressed("left"):
 		Rider.input_strength.x = Input.get_action_strength("left") * -1
 	Rider.input_strength.normalized()
+
+	# jumping
 	if Input.is_action_just_pressed("jump"):
 		Rider.jump_strength = 1
 		$UI/Margin/HBox/VBoxR/JumpInt.text = Rider.jump_strength as String
@@ -113,3 +113,5 @@ func _on_FinishDetector_area_entered(area):
 		var finish_timestamp = RaceSession.convert_msec_to_timestamp(RaceSession.get_time())
 		print_debug(finish_timestamp)
 		$InfoBillboard/Time.visible = true
+		# todo: make the rank lock in at this point
+		$InfoBillboard/Rank.visible = true

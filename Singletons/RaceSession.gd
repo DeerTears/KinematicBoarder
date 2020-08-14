@@ -2,8 +2,6 @@ extends Node
 
 var start_time = OS.get_ticks_msec()
 
-var number_of_racers: int = 1
-
 func reset_time():
 	start_time = OS.get_ticks_msec()
 func get_time() -> int:
