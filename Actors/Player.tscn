@@ -1,15 +1,9 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Actors/Scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://Actors/Scripts/Rider.gd" type="Script" id=2]
 [ext_resource path="res://icon.png" type="Texture" id=3]
-
-[sub_resource type="CapsuleShape" id=5]
-radius = 0.5
-
-[sub_resource type="CapsuleMesh" id=9]
-radius = 0.5
-radial_segments = 8
+[ext_resource path="res://UI/Themes/slopestyle_a2.tres" type="Theme" id=4]
 
 [sub_resource type="CubeMesh" id=1]
 size = Vector3( 0.5, 1, 0.5 )
@@ -32,13 +26,23 @@ rings = 8
 [sub_resource type="CubeMesh" id=4]
 size = Vector3( 1, 0.1, 3 )
 
-[sub_resource type="PrismMesh" id=6]
+[sub_resource type="PrismMesh" id=5]
 size = Vector3( 0.5, 0.5, 0.1 )
 
-[sub_resource type="PrismMesh" id=7]
+[sub_resource type="CapsuleShape" id=6]
+radius = 0.25
+height = 0.5
+
+[sub_resource type="CapsuleMesh" id=7]
+radius = 0.25
+mid_height = 0.5
+radial_segments = 16
+rings = 2
+
+[sub_resource type="PrismMesh" id=8]
 size = Vector3( 0.5, 0.5, 0.2 )
 
-[sub_resource type="CylinderMesh" id=8]
+[sub_resource type="CylinderMesh" id=9]
 top_radius = 0.1
 bottom_radius = 0.05
 height = 1.0
@@ -49,7 +53,6 @@ rings = 1
 script = ExtResource( 1 )
 
 [node name="Rider" type="KinematicBody" parent="."]
-transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, 0, 0, 0 )
 collision_mask = 16
 script = ExtResource( 2 )
 
@@ -64,15 +67,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 remote_path = NodePath("../../NormalJoint")
 update_rotation = false
 update_scale = false
-
-[node name="CollisionShape" type="CollisionShape" parent="Rider"]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0.45, 0 )
-shape = SubResource( 5 )
-
-[node name="MeshInstance" type="MeshInstance" parent="Rider"]
-transform = Transform( 1, -1.62921e-07, -1.62921e-07, 1.62921e-07, -4.37114e-08, 1, -1.62921e-07, -1, -4.37114e-08, 0, 0.45, 0 )
-mesh = SubResource( 9 )
-material/0 = null
 
 [node name="Meshes" type="Spatial" parent="Rider"]
 
@@ -93,7 +87,15 @@ material/0 = null
 
 [node name="EditorArrow" type="MeshInstance" parent="Rider/Meshes"]
 transform = Transform( -1, 8.74228e-08, 1.42432e-14, 0, -1.62921e-07, 1, 8.74228e-08, 1, 1.62921e-07, 1.62921e-07, 0.5, 1 )
-mesh = SubResource( 6 )
+mesh = SubResource( 5 )
+material/0 = null
+
+[node name="CollisionShape" type="CollisionShape" parent="Rider"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0 )
+shape = SubResource( 6 )
+
+[node name="MeshInstance" type="MeshInstance" parent="Rider/CollisionShape"]
+mesh = SubResource( 7 )
 material/0 = null
 
 [node name="CamJoint" type="Spatial" parent="."]
@@ -110,12 +112,12 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 
 [node name="NormalArrow" type="MeshInstance" parent="NormalJoint"]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 2.5, 0 )
-mesh = SubResource( 7 )
+mesh = SubResource( 8 )
 material/0 = null
 
 [node name="ArrowStem" type="MeshInstance" parent="NormalJoint"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75282, 0 )
-mesh = SubResource( 8 )
+mesh = SubResource( 9 )
 material/0 = null
 
 [node name="UI" type="CanvasLayer" parent="."]
@@ -124,6 +126,7 @@ layer = -1
 [node name="Margin" type="MarginContainer" parent="UI"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+theme = ExtResource( 4 )
 custom_constants/margin_right = 12
 custom_constants/margin_top = 12
 custom_constants/margin_left = 12
@@ -159,13 +162,13 @@ size_flags_vertical = 10
 text = "Speed: 75 km/s"
 
 [node name="VBoxR" type="VBoxContainer" parent="UI/Margin/HBox"]
-margin_left = 922.0
+margin_left = 942.0
 margin_right = 1000.0
 margin_bottom = 576.0
 size_flags_horizontal = 10
 
 [node name="Rank" type="Label" parent="UI/Margin/HBox/VBoxR"]
-margin_right = 78.0
+margin_right = 58.0
 margin_bottom = 14.0
 size_flags_vertical = 0
 text = "1st place"
@@ -174,17 +177,8 @@ valign = 1
 
 [node name="Score" type="Label" parent="UI/Margin/HBox/VBoxR"]
 margin_top = 18.0
-margin_right = 78.0
+margin_right = 58.0
 margin_bottom = 32.0
 size_flags_vertical = 0
 text = "2602600"
 align = 2
-
-[node name="Boost" type="Label" parent="UI/Margin/HBox/VBoxR"]
-margin_top = 562.0
-margin_right = 78.0
-margin_bottom = 576.0
-size_flags_vertical = 10
-text = "boost exists"
-align = 2
-valign = 1

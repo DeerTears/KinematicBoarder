@@ -1,11 +1,4 @@
-[gd_resource type="Theme" load_steps=19 format=2]
-
-[ext_resource path="res://Fonts/Comfortaa-Light.tres" type="DynamicFont" id=1]
-[ext_resource path="res://Fonts/Comfortaa-Bold.tres" type="DynamicFont" id=2]
-[ext_resource path="res://UI/Textures/cursor_active.png" type="Texture" id=3]
-[ext_resource path="res://Fonts/Sarpanch-SemiBold.tres" type="DynamicFont" id=4]
-[ext_resource path="res://UI/Textures/cursor_disabled.png" type="Texture" id=5]
-[ext_resource path="res://UI/Textures/cursor_inactive.png" type="Texture" id=6]
+[gd_resource type="Theme" load_steps=13 format=2]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.15, 0.348333, 0.5, 0.705882 )
@@ -145,13 +138,12 @@ corner_radius_bottom_right = 8
 corner_detail = 1
 
 [resource]
-default_font = ExtResource( 1 )
 Button/colors/font_color = Color( 0.792157, 0.439216, 0.105882, 1 )
 Button/colors/font_color_disabled = Color( 0.733333, 0.745098, 0.756863, 0.211765 )
 Button/colors/font_color_hover = Color( 0.733333, 0.745098, 0.756863, 1 )
 Button/colors/font_color_pressed = Color( 0.792157, 0.439216, 0.105882, 1 )
 Button/constants/hseparation = 2
-Button/fonts/font = ExtResource( 4 )
+Button/fonts/font = null
 Button/styles/disabled = null
 Button/styles/focus = null
 Button/styles/hover = SubResource( 1 )
@@ -175,9 +167,9 @@ CheckBox/styles/hover = null
 CheckBox/styles/hover_pressed = null
 CheckBox/styles/normal = null
 CheckBox/styles/pressed = null
-HSlider/icons/grabber = ExtResource( 6 )
-HSlider/icons/grabber_disabled = ExtResource( 5 )
-HSlider/icons/grabber_highlight = ExtResource( 3 )
+HSlider/icons/grabber = null
+HSlider/icons/grabber_disabled = null
+HSlider/icons/grabber_highlight = null
 HSlider/icons/tick = null
 HSlider/styles/grabber_area = SubResource( 4 )
 HSlider/styles/grabber_area_highlight = SubResource( 5 )
@@ -189,12 +181,12 @@ Label/constants/line_spacing = 3
 Label/constants/shadow_as_outline = 0
 Label/constants/shadow_offset_x = 0
 Label/constants/shadow_offset_y = -2
-Label/fonts/font = ExtResource( 2 )
+Label/fonts/font = null
 Label/styles/normal = SubResource( 6 )
 Panel/styles/panel = SubResource( 7 )
 ProgressBar/colors/font_color = Color( 0.94, 0.94, 0.94, 1 )
 ProgressBar/colors/font_color_shadow = Color( 0, 0, 0, 1 )
-ProgressBar/fonts/font = ExtResource( 4 )
+ProgressBar/fonts/font = null
 ProgressBar/styles/bg = SubResource( 8 )
 ProgressBar/styles/fg = SubResource( 9 )
 TooltipLabel/colors/font_color = Color( 1, 1, 1, 1 )

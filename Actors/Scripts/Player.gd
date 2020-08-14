@@ -82,4 +82,12 @@ func _process(_delta):
 		Rider.input_strength.x = Input.get_action_strength("right")
 	elif Input.is_action_pressed("left"):
 		Rider.input_strength.x = Input.get_action_strength("left") * -1
-	
+	if Input.is_action_just_pressed("jump"):
+		Rider.jump_strength = 1
+	elif Input.is_action_just_released("jump"):
+		Rider.jump_strength = -1
+	elif Input.is_action_pressed("jump"):
+		Rider.jump_strength = 0
+	else:
+		Rider.jump_strength = -1
+	Rider.input_strength.normalized()
