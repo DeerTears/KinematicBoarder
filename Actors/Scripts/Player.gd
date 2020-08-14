@@ -9,15 +9,17 @@ export var joypad_sens: float = 0.1
 export var mouse_sens: float = 0.01
 export var zoom_speed: float = 0.4
 
+# other camera vars
 var joycam_step: Vector3 = Vector3.ZERO
 var zoom_extent = {"in": 5, "out": 15}
-
-# more settings
 export var invert_x: bool = false
 export var invert_y: bool = false
-# uglier but simpler version of enums
+# uglier but simpler version of enums (sorry)
 var y_inversion: int = -1
 var x_inversion: int = -1
+
+# race variables
+export var stage_of_race: String = "ready"
 
 func _ready():
 	init()
@@ -36,6 +38,8 @@ func init():
 		x_inversion = -1
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$Rider/Meshes/EditorArrow.visible = false
+	$InfoBillboard/Rank.visible = false # because we're the player
+	$InfoBillboard/Time.visible = false
 
 func _input(event):
 	# joypad camera
@@ -65,7 +69,10 @@ func _input(event):
 	if event.is_action("reset"):
 # warning-ignore:return_value_discarded
 		get_tree().reload_current_scene()
+		RaceSession.reset_time()
 	if event.is_action("quit"):
+		var current_time = RaceSession.get_time()
+		print(RaceSession.convert_msec_to_timestamp(current_time))
 		get_tree().quit()
 
 
@@ -82,12 +89,27 @@ func _process(_delta):
 		Rider.input_strength.x = Input.get_action_strength("right")
 	elif Input.is_action_pressed("left"):
 		Rider.input_strength.x = Input.get_action_strength("left") * -1
+	Rider.input_strength.normalized()
 	if Input.is_action_just_pressed("jump"):
 		Rider.jump_strength = 1
-	elif Input.is_action_just_released("jump"):
-		Rider.jump_strength = -1
-	elif Input.is_action_pressed("jump"):
+		$UI/Margin/HBox/VBoxR/JumpInt.text = Rider.jump_strength as String
+		$UI/Margin/HBox/VBoxR/JumpInt/Progress.value = Rider.jump_strength
+		return
+	if Input.is_action_pressed("jump"):
 		Rider.jump_strength = 0
-	else:
+		$UI/Margin/HBox/VBoxR/JumpInt.text = Rider.jump_strength as String
+		$UI/Margin/HBox/VBoxR/JumpInt/Progress.value = Rider.jump_strength
+		return
+	if Input.is_action_just_released("jump"):
 		Rider.jump_strength = -1
-	Rider.input_strength.normalized()
+		$UI/Margin/HBox/VBoxR/JumpInt.text = Rider.jump_strength as String
+		$UI/Margin/HBox/VBoxR/JumpInt/Progress.value = Rider.jump_strength
+		return
+
+
+func _on_FinishDetector_area_entered(area):
+	if stage_of_race != "finished" and area.name == "Finish":
+		stage_of_race = "finished"
+		var finish_timestamp = RaceSession.convert_msec_to_timestamp(RaceSession.get_time())
+		print_debug(finish_timestamp)
+		$InfoBillboard/Time.visible = true

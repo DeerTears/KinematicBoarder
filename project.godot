@@ -19,6 +19,10 @@ config/name="KinematicBoarder"
 run/main_scene="res://Levels/Area1.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+RaceSession="*res://Singletons/RaceSession.gd"
+
 [input]
 
 fwd={
@@ -95,6 +99,12 @@ quit={
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":10,"pressure":0.0,"pressed":false,"script":null)
  ]
 }
+
+[layer_names]
+
+3d_physics/layer_1="Rider"
+3d_physics/layer_4="Checkpoints"
+3d_physics/layer_5="World"
 
 [rendering]
 

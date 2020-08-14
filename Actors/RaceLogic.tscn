@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 2, 20, 40 )
+
+[node name="RaceLogic" type="Spatial"]
+
+[node name="Finish" type="Area" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -256, -86, 105 )
+collision_layer = 8
+collision_mask = 2147483648
+
+[node name="CollisionShape" type="CollisionShape" parent="Finish"]
+shape = SubResource( 1 )

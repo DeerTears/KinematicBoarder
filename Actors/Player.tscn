@@ -1,9 +1,8 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Actors/Scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://Actors/Scripts/Rider.gd" type="Script" id=2]
 [ext_resource path="res://icon.png" type="Texture" id=3]
-[ext_resource path="res://UI/Themes/slopestyle_a2.tres" type="Theme" id=4]
 
 [sub_resource type="CubeMesh" id=1]
 size = Vector3( 0.5, 1, 0.5 )
@@ -39,6 +38,9 @@ mid_height = 0.5
 radial_segments = 16
 rings = 2
 
+[sub_resource type="SphereShape" id=10]
+radius = 1.5
+
 [sub_resource type="PrismMesh" id=8]
 size = Vector3( 0.5, 0.5, 0.2 )
 
@@ -48,6 +50,45 @@ bottom_radius = 0.05
 height = 1.0
 radial_segments = 4
 rings = 1
+
+[sub_resource type="Curve" id=13]
+bake_resolution = 32
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=14]
+curve = SubResource( 13 )
+
+[sub_resource type="SpatialMaterial" id=15]
+flags_transparent = true
+flags_unshaded = true
+flags_no_depth_test = true
+params_billboard_mode = 2
+albedo_texture = SubResource( 14 )
+distance_fade_mode = 1
+distance_fade_min_distance = 13.0
+distance_fade_max_distance = 22.0
+
+[sub_resource type="QuadMesh" id=12]
+material = SubResource( 15 )
+size = Vector2( 2, 1 )
+
+[sub_resource type="OpenSimplexNoise" id=18]
+
+[sub_resource type="NoiseTexture" id=19]
+width = 1024
+height = 256
+noise = SubResource( 18 )
+
+[sub_resource type="SpatialMaterial" id=16]
+flags_transparent = true
+flags_unshaded = true
+params_specular_mode = 4
+params_billboard_mode = 1
+albedo_texture = SubResource( 19 )
+
+[sub_resource type="QuadMesh" id=17]
+material = SubResource( 16 )
+size = Vector2( 4, 1 )
 
 [node name="Player" type="Spatial"]
 script = ExtResource( 1 )
@@ -67,6 +108,9 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 remote_path = NodePath("../../NormalJoint")
 update_rotation = false
 update_scale = false
+
+[node name="TransformBillboard" type="RemoteTransform" parent="Rider"]
+remote_path = NodePath("../../InfoBillboard")
 
 [node name="Meshes" type="Spatial" parent="Rider"]
 
@@ -98,6 +142,14 @@ shape = SubResource( 6 )
 mesh = SubResource( 7 )
 material/0 = null
 
+[node name="FinishDetector" type="Area" parent="Rider"]
+monitorable = false
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape" type="CollisionShape" parent="Rider/FinishDetector"]
+shape = SubResource( 10 )
+
 [node name="CamJoint" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 
@@ -120,13 +172,24 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75282, 0 )
 mesh = SubResource( 9 )
 material/0 = null
 
+[node name="InfoBillboard" type="Spatial" parent="."]
+
+[node name="Rank" type="MeshInstance" parent="InfoBillboard"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.4, 0 )
+mesh = SubResource( 12 )
+material/0 = null
+
+[node name="Time" type="MeshInstance" parent="InfoBillboard"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.4, 0 )
+mesh = SubResource( 17 )
+material/0 = null
+
 [node name="UI" type="CanvasLayer" parent="."]
 layer = -1
 
 [node name="Margin" type="MarginContainer" parent="UI"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = ExtResource( 4 )
 custom_constants/margin_right = 12
 custom_constants/margin_top = 12
 custom_constants/margin_left = 12
@@ -162,13 +225,13 @@ size_flags_vertical = 10
 text = "Speed: 75 km/s"
 
 [node name="VBoxR" type="VBoxContainer" parent="UI/Margin/HBox"]
-margin_left = 942.0
+margin_left = 901.0
 margin_right = 1000.0
 margin_bottom = 576.0
 size_flags_horizontal = 10
 
 [node name="Rank" type="Label" parent="UI/Margin/HBox/VBoxR"]
-margin_right = 58.0
+margin_right = 99.0
 margin_bottom = 14.0
 size_flags_vertical = 0
 text = "1st place"
@@ -177,8 +240,34 @@ valign = 1
 
 [node name="Score" type="Label" parent="UI/Margin/HBox/VBoxR"]
 margin_top = 18.0
-margin_right = 58.0
+margin_right = 99.0
 margin_bottom = 32.0
 size_flags_vertical = 0
-text = "2602600"
+text = "Score: 2602600"
 align = 2
+
+[node name="JumpInt" type="Label" parent="UI/Margin/HBox/VBoxR"]
+margin_top = 562.0
+margin_right = 99.0
+margin_bottom = 576.0
+size_flags_vertical = 10
+text = "-1"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Progress" type="ProgressBar" parent="UI/Margin/HBox/VBoxR/JumpInt"]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_vertical = 10
+min_value = -1.0
+max_value = 1.0
+step = 1.0
+percent_visible = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="area_entered" from="Rider/FinishDetector" to="." method="_on_FinishDetector_area_entered"]

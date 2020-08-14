@@ -1,7 +1,7 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Actors/Player.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Levels/EditorTools/FixPathNormals.gd" type="Script" id=2]
+[ext_resource path="res://Actors/RaceLogic.tscn" type="PackedScene" id=2]
 
 [sub_resource type="Curve3D" id=1]
 _data = {
@@ -15,11 +15,21 @@ _data = {
 "tilts": PoolRealArray( 0, 0, 0, 0 )
 }
 
-[sub_resource type="ConvexPolygonShape" id=3]
-points = PoolVector3Array( -20, 1, 20, 20, 1, -20, 20, 1, 20, -20, 1, -20, -20, -1, 20, 20, -1, -20, 20, -1, 20, -20, -1, -20, 20, 1, 20, -20, 1, -20, 20, 1, -20, -20, 1, 20, 20, -1, 20, -20, -1, -20, 20, -1, -20, -20, -1, 20, 20, 1, 20, -20, -1, 20, -20, 1, 20, 20, -1, 20, 20, 1, -20, -20, -1, -20, -20, 1, -20, 20, -1, -20 )
+[sub_resource type="Curve3D" id=7]
+_data = {
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 129.69, -20.4696, -110.491, 23.3794, -4.46296, -38.7469, -23.3794, 4.46296, 38.7469, 45.4805, -15.689, -102.264, -16.4588, 0, -31.2032, 16.4588, 0, 31.2032, 75.1755, -47.0148, -4.04427, 34.2893, 0, -6.51495, -34.2893, 0, 6.51495, 44.3151, -47.9984, 73.9804, 45.2618, -0.0458908, -27.6254, -45.2618, 0.0458908, 27.6254, -55.4666, -56.4161, -6.70303, 31.7544, 0, -25.4696, -31.7544, 0, 25.4696, -61.315, -77.446, 82.4952, 35.4659, 1.36173, 0, -35.4659, -1.36173, 0, -139.378, -90.4669, 101.358, 0, 0, 0, 0, 0, 0, -254.975, -91.0878, 102.168 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0 )
+}
 
-[sub_resource type="CubeMesh" id=4]
-size = Vector3( 40, 2, 40 )
+[sub_resource type="CylinderMesh" id=12]
+top_radius = 0.5
+bottom_radius = 0.5
+height = 8.0
+radial_segments = 8
+rings = 1
+
+[sub_resource type="CubeMesh" id=13]
+size = Vector3( 2, 4, 30 )
 
 [sub_resource type="ProceduralSky" id=5]
 sky_top_color = Color( 0.00784314, 0.388235, 0.427451, 1 )
@@ -37,11 +47,25 @@ sun_angle_max = 10.0
 background_mode = 2
 background_sky = SubResource( 5 )
 
-[node name="Spatial" type="Spatial"]
+[sub_resource type="CubeMesh" id=8]
+size = Vector3( 140, 35, 35 )
+
+[sub_resource type="ConvexPolygonShape" id=9]
+points = PoolVector3Array( -70, 17.5, 17.5, 70, 17.5, -17.5, 70, 17.5, 17.5, -70, 17.5, -17.5, -70, -17.5, 17.5, 70, -17.5, -17.5, 70, -17.5, 17.5, -70, -17.5, -17.5, 70, 17.5, 17.5, -70, 17.5, -17.5, 70, 17.5, -17.5, -70, 17.5, 17.5, 70, -17.5, 17.5, -70, -17.5, -17.5, 70, -17.5, -17.5, -70, -17.5, 17.5, 70, 17.5, 17.5, -70, -17.5, 17.5, -70, 17.5, 17.5, 70, -17.5, 17.5, 70, 17.5, -17.5, -70, -17.5, -17.5, -70, 17.5, -17.5, 70, -17.5, -17.5 )
+
+[sub_resource type="CubeMesh" id=4]
+size = Vector3( 40, 2, 40 )
+
+[sub_resource type="ConvexPolygonShape" id=3]
+points = PoolVector3Array( -20, 1, 20, 20, 1, -20, 20, 1, 20, -20, 1, -20, -20, -1, 20, 20, -1, -20, 20, -1, 20, -20, -1, -20, 20, 1, 20, -20, 1, -20, 20, 1, -20, -20, 1, 20, 20, -1, 20, -20, -1, -20, 20, -1, -20, -20, -1, 20, 20, 1, 20, -20, -1, 20, -20, 1, 20, 20, -1, 20, 20, 1, -20, -20, -1, -20, -20, 1, -20, 20, -1, -20 )
+
+[sub_resource type="BoxShape" id=10]
+extents = Vector3( 20, 10, 1 )
+
+[node name="World" type="Spatial"]
 
 [node name="PathA" type="Path" parent="."]
 curve = SubResource( 1 )
-script = ExtResource( 2 )
 
 [node name="Floor" type="CSGPolygon" parent="PathA"]
 use_collision = true
@@ -131,20 +155,79 @@ path_local = false
 path_continuous_u = false
 path_joined = false
 
-[node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -28.0648, 18, 0 )
+[node name="PathC" type="Path" parent="."]
+curve = SubResource( 7 )
 
-[node name="StaticBody" type="StaticBody" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 15, 0 )
+[node name="Floor2" type="CSGPolygon" parent="PathC"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -70, -20, 20 )
+use_collision = true
 collision_layer = 16
 collision_mask = 0
+invert_faces = true
+polygon = PoolVector2Array( 0, 0, -10, 1, 10, 1 )
+mode = 2
+path_node = NodePath("..")
+path_interval = 16.0
+path_rotation = 2
+path_local = false
+path_continuous_u = false
+path_joined = false
 
-[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
-shape = SubResource( 3 )
+[node name="BankL2" type="CSGPolygon" parent="PathC"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -70, -20, 20 )
+use_collision = true
+collision_layer = 16
+collision_mask = 0
+invert_faces = true
+polygon = PoolVector2Array( -18, 6, -18, 1, -10, 1 )
+mode = 2
+path_node = NodePath("..")
+path_interval = 16.0
+path_rotation = 2
+path_local = false
+path_continuous_u = false
+path_joined = false
 
-[node name="MeshInstance" type="MeshInstance" parent="StaticBody"]
-mesh = SubResource( 4 )
+[node name="FenceR2" type="CSGPolygon" parent="PathC"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -70, -20, 20 )
+use_collision = true
+collision_layer = 16
+collision_mask = 0
+invert_faces = true
+polygon = PoolVector2Array( 10, 1, 10, 5, 11, 5, 11, 1 )
+mode = 2
+path_node = NodePath("..")
+path_interval = 16.0
+path_rotation = 2
+path_local = false
+path_continuous_u = false
+path_joined = false
+
+[node name="PathFollow" type="PathFollow" parent="PathC"]
+transform = Transform( 0.999976, 0.0067202, 0.00139, -0.00672018, 0.999977, -2.46919e-05, -0.00139013, 1.53503e-05, 0.999997, -254.975, -91.0878, 102.168 )
+offset = 750.837
+rotation_mode = 0
+loop = false
+
+[node name="Poles" type="Spatial" parent="PathC/PathFollow"]
+
+[node name="MeshInstance" type="MeshInstance" parent="PathC/PathFollow/Poles"]
+transform = Transform( 1, 0, 0, -9.31323e-09, 1, 0, 0, 0, 0.999999, 0, 7, -10.5 )
+mesh = SubResource( 12 )
 material/0 = null
+
+[node name="MeshInstance2" type="MeshInstance" parent="PathC/PathFollow/Poles"]
+transform = Transform( 1, 0, 0, -9.31323e-09, 1, 0, 0, 0, 0.999999, 0, 7, 17.5 )
+mesh = SubResource( 12 )
+material/0 = null
+
+[node name="MeshInstance3" type="MeshInstance" parent="PathC/PathFollow/Poles"]
+transform = Transform( 1, 0, 0, -1.67638e-08, 1, 0, 0, 0, 0.999999, -0.101791, 12.5996, 3.49992 )
+mesh = SubResource( 13 )
+material/0 = null
+
+[node name="Player" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -225.274, -83.4494, 109.357 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 6 )
@@ -160,3 +243,66 @@ directional_shadow_split_2 = 0.7
 directional_shadow_split_3 = 0.9
 directional_shadow_blend_splits = true
 directional_shadow_normal_bias = 1.4
+
+[node name="Brushes" type="Spatial" parent="."]
+
+[node name="Rock1" type="MeshInstance" parent="Brushes"]
+transform = Transform( 0.99557, 0.0470107, -0.081425, 0, 0.866025, 0.5, 0.0940214, -0.497785, 0.862189, 9.11385, -10.2901, 27.3093 )
+mesh = SubResource( 8 )
+material/0 = null
+
+[node name="StaticBody" type="StaticBody" parent="Brushes/Rock1"]
+
+[node name="CollisionShape" type="CollisionShape" parent="Brushes/Rock1/StaticBody"]
+transform = Transform( 1, 7.45058e-09, -1.49012e-08, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+shape = SubResource( 9 )
+
+[node name="StartingFloor" type="MeshInstance" parent="Brushes"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -30, 15, 0 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="StaticBody" type="StaticBody" parent="Brushes/StartingFloor"]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape" type="CollisionShape" parent="Brushes/StartingFloor/StaticBody"]
+shape = SubResource( 3 )
+
+[node name="CollisionShape2" type="CollisionShape" parent="Brushes/StartingFloor/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, 21 )
+shape = SubResource( 10 )
+
+[node name="CollisionShape3" type="CollisionShape" parent="Brushes/StartingFloor/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, -21 )
+shape = SubResource( 10 )
+
+[node name="CollisionShape4" type="CollisionShape" parent="Brushes/StartingFloor/StaticBody"]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -21, 11, 0 )
+shape = SubResource( 10 )
+
+[node name="EndingFloor" type="MeshInstance" parent="Brushes"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -274, -91.6, 105 )
+mesh = SubResource( 4 )
+material/0 = null
+
+[node name="StaticBody" type="StaticBody" parent="Brushes/EndingFloor"]
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape" type="CollisionShape" parent="Brushes/EndingFloor/StaticBody"]
+shape = SubResource( 3 )
+
+[node name="CollisionShape2" type="CollisionShape" parent="Brushes/EndingFloor/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, 21 )
+shape = SubResource( 10 )
+
+[node name="CollisionShape3" type="CollisionShape" parent="Brushes/EndingFloor/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 11, -21 )
+shape = SubResource( 10 )
+
+[node name="CollisionShape4" type="CollisionShape" parent="Brushes/EndingFloor/StaticBody"]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -21, 11, 0 )
+shape = SubResource( 10 )
+
+[node name="RaceLogic" parent="." instance=ExtResource( 2 )]
