@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://Actors/Scripts/Player.gd" type="Script" id=1]
 [ext_resource path="res://Actors/Scripts/Rider.gd" type="Script" id=2]
@@ -32,60 +32,54 @@ size = Vector3( 0.5, 0.5, 0.1 )
 radius = 0.25
 height = 0.5
 
-[sub_resource type="CapsuleMesh" id=7]
-radius = 0.25
-mid_height = 0.5
-radial_segments = 16
-rings = 2
-
-[sub_resource type="SphereShape" id=8]
+[sub_resource type="SphereShape" id=7]
 radius = 1.5
 
-[sub_resource type="PrismMesh" id=9]
+[sub_resource type="PrismMesh" id=8]
 size = Vector3( 0.5, 0.5, 0.2 )
 
-[sub_resource type="CylinderMesh" id=10]
+[sub_resource type="CylinderMesh" id=9]
 top_radius = 0.1
 bottom_radius = 0.05
 height = 1.0
 radial_segments = 4
 rings = 1
 
-[sub_resource type="Curve" id=11]
+[sub_resource type="Curve" id=10]
 bake_resolution = 32
 _data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 0 ]
 
-[sub_resource type="CurveTexture" id=12]
-curve = SubResource( 11 )
+[sub_resource type="CurveTexture" id=11]
+curve = SubResource( 10 )
 
-[sub_resource type="SpatialMaterial" id=13]
+[sub_resource type="SpatialMaterial" id=12]
 resource_local_to_scene = true
 flags_transparent = true
 flags_unshaded = true
 params_billboard_mode = 2
-albedo_texture = SubResource( 12 )
+albedo_texture = SubResource( 11 )
 distance_fade_mode = 1
 distance_fade_min_distance = 10.0
 distance_fade_max_distance = 20.0
 
-[sub_resource type="QuadMesh" id=14]
-material = SubResource( 13 )
+[sub_resource type="QuadMesh" id=13]
+material = SubResource( 12 )
 size = Vector2( 2, 1 )
 
-[sub_resource type="QuadMesh" id=15]
+[sub_resource type="QuadMesh" id=14]
 resource_local_to_scene = true
 size = Vector2( 4, 1 )
 
-[sub_resource type="ViewportTexture" id=16]
+[sub_resource type="ViewportTexture" id=15]
 viewport_path = NodePath("InfoBillboard/Viewport")
 
-[sub_resource type="SpatialMaterial" id=17]
+[sub_resource type="SpatialMaterial" id=16]
 resource_local_to_scene = true
 flags_transparent = true
 flags_unshaded = true
 params_specular_mode = 4
 params_billboard_mode = 1
-albedo_texture = SubResource( 16 )
+albedo_texture = SubResource( 15 )
 
 [node name="Player" type="Spatial"]
 script = ExtResource( 1 )
@@ -135,17 +129,13 @@ material/0 = null
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.3, 0 )
 shape = SubResource( 6 )
 
-[node name="MeshInstance" type="MeshInstance" parent="Rider/CollisionShape"]
-mesh = SubResource( 7 )
-material/0 = null
-
 [node name="FinishDetector" type="Area" parent="Rider"]
 monitorable = false
 collision_layer = 0
 collision_mask = 8
 
 [node name="CollisionShape" type="CollisionShape" parent="Rider/FinishDetector"]
-shape = SubResource( 8 )
+shape = SubResource( 7 )
 
 [node name="CamJoint" type="Spatial" parent="."]
 transform = Transform( -1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0, 1, 0 )
@@ -162,25 +152,25 @@ visible = false
 
 [node name="NormalArrow" type="MeshInstance" parent="NormalJoint"]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 2.5, 0 )
-mesh = SubResource( 9 )
+mesh = SubResource( 8 )
 material/0 = null
 
 [node name="ArrowStem" type="MeshInstance" parent="NormalJoint"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.75282, 0 )
-mesh = SubResource( 10 )
+mesh = SubResource( 9 )
 material/0 = null
 
 [node name="InfoBillboard" type="Spatial" parent="."]
 
 [node name="Rank" type="MeshInstance" parent="InfoBillboard"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.2, 0 )
-mesh = SubResource( 14 )
+mesh = SubResource( 13 )
 material/0 = null
 
 [node name="Time" type="MeshInstance" parent="InfoBillboard"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2, 0 )
-mesh = SubResource( 15 )
-material/0 = SubResource( 17 )
+mesh = SubResource( 14 )
+material/0 = SubResource( 16 )
 
 [node name="Viewport" type="Viewport" parent="InfoBillboard"]
 size = Vector2( 256, 64 )
