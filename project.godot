@@ -103,6 +103,7 @@ quit={
 [layer_names]
 
 3d_physics/layer_1="Rider"
+3d_physics/layer_3="Ramps"
 3d_physics/layer_4="Checkpoints"
 3d_physics/layer_5="World"
 

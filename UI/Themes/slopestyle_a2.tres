@@ -1,4 +1,8 @@
-[gd_resource type="Theme" load_steps=13 format=2]
+[gd_resource type="Theme" load_steps=16 format=2]
+
+[ext_resource path="res://Fonts/Comfortaa-Bold.tres" type="DynamicFont" id=1]
+[ext_resource path="res://Fonts/Sarpanch-SemiBold.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Fonts/Comfortaa-Light.tres" type="DynamicFont" id=3]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.15, 0.348333, 0.5, 0.705882 )
@@ -138,12 +142,13 @@ corner_radius_bottom_right = 8
 corner_detail = 1
 
 [resource]
+default_font = ExtResource( 1 )
 Button/colors/font_color = Color( 0.792157, 0.439216, 0.105882, 1 )
 Button/colors/font_color_disabled = Color( 0.733333, 0.745098, 0.756863, 0.211765 )
 Button/colors/font_color_hover = Color( 0.733333, 0.745098, 0.756863, 1 )
 Button/colors/font_color_pressed = Color( 0.792157, 0.439216, 0.105882, 1 )
 Button/constants/hseparation = 2
-Button/fonts/font = null
+Button/fonts/font = ExtResource( 2 )
 Button/styles/disabled = null
 Button/styles/focus = null
 Button/styles/hover = SubResource( 1 )
@@ -181,7 +186,7 @@ Label/constants/line_spacing = 3
 Label/constants/shadow_as_outline = 0
 Label/constants/shadow_offset_x = 0
 Label/constants/shadow_offset_y = -2
-Label/fonts/font = null
+Label/fonts/font = ExtResource( 3 )
 Label/styles/normal = SubResource( 6 )
 Panel/styles/panel = SubResource( 7 )
 ProgressBar/colors/font_color = Color( 0.94, 0.94, 0.94, 1 )

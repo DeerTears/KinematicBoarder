@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://Actors/Player.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Actors/RaceLogic.tscn" type="PackedScene" id=2]
@@ -11,14 +11,14 @@ _data = {
 
 [sub_resource type="Curve3D" id=2]
 _data = {
-"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 179.266, 6.5467, -17.5432, -6.75024, 0, 14.8505, 6.75024, 0, -14.8505, 286.123, 0, -42.186, 13.5004, 0, 20.7007, -13.5004, 0, -20.7007, 284.773, 0, -89.8876, 0, 0, 0, 0, 0, 0, 197.47, 0, -133.539 ),
-"tilts": PoolRealArray( 0, 0, 0, 0 )
+"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 179.266, 6.5467, -17.5432, -17.924, 0, 28.7149, 17.924, 0, -28.7149, 274.66, 3.05176e-05, -45.11, 13.0301, 0, 19.9445, -13.0301, 0, -19.9445, 276.306, -18.916, -101.26, 39.8717, -1.09739, -5.0238, -39.8717, 1.09739, 5.0238, 203.887, -17.083, -112, 31.0926, 0, 0, -31.0926, 0, 0, 110.982, -38.4775, -55, 0, 0, 0, 0, 0, 0, 43.6426, -39.4623, -36.1111 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0, 0 )
 }
 
 [sub_resource type="Curve3D" id=3]
 _data = {
-"points": PoolVector3Array( 0, 0, 0, 0, 0, 0, 129.69, -20.4696, -110.491, 23.3794, -4.46296, -38.7469, -23.3794, 4.46296, 38.7469, 45.4805, -15.689, -102.264, -16.4588, 0, -31.2032, 16.4588, 0, 31.2032, 75.1755, -47.0148, -4.04427, 34.2893, 0, -6.51495, -34.2893, 0, 6.51495, 44.3151, -47.9984, 73.9804, 45.2618, -0.0458908, -27.6254, -45.2618, 0.0458908, 27.6254, -55.4666, -56.4161, -6.70303, 31.7544, 0, -25.4696, -31.7544, 0, 25.4696, -61.315, -77.446, 82.4952, 35.4659, 1.36173, 0, -35.4659, -1.36173, 0, -139.378, -90.4669, 101.358, 0, 0, 0, 0, 0, 0, -254.975, -91.0878, 102.168 ),
-"tilts": PoolRealArray( 0, 0, 0, 0, 0, 0, 0, 0 )
+"points": PoolVector3Array( -16.4588, 0, -31.2032, 16.4588, 0, 31.2032, 68.8549, -8.96067, -214.693, 0, 0.321905, -41.47, 0, -0.321905, 41.47, 77, -31, -52, 34.2893, 0, -6.51495, -34.2893, 0, 6.51495, 44.3151, -47.9984, 73.9804, 45.2618, -0.0458908, -27.6254, -45.2618, 0.0458908, 27.6254, -55.4666, -56.4161, -6.70303, 31.7544, 0, -25.4696, -31.7544, 0, 25.4696, -61.315, -77.446, 82.4952, 35.4659, 1.36173, 0, -35.4659, -1.36173, 0, -139.378, -90.4669, 101.358, 0, 0, 0, 0, 0, 0, -254.975, -91.0878, 102.168 ),
+"tilts": PoolRealArray( 0, 0, 0, 0, 0, 0, 0 )
 }
 
 [sub_resource type="CylinderMesh" id=4]
@@ -61,6 +61,20 @@ points = PoolVector3Array( -20, 1, 20, 20, 1, -20, 20, 1, 20, -20, 1, -20, -20, 
 
 [sub_resource type="BoxShape" id=12]
 extents = Vector3( 20, 10, 1 )
+
+[sub_resource type="PrismMesh" id=13]
+left_to_right = 1.0
+size = Vector3( 20, 10, 25 )
+
+[sub_resource type="ConvexPolygonShape" id=14]
+points = PoolVector3Array( 10, 5, 12.5, 10, 5, -12.5, 10, 5, 12.5, 10, 5, -12.5, -10, -5, 12.5, 10, -5, -12.5, 10, -5, 12.5, -10, -5, -12.5, 10, 5, 12.5, 10, 5, -12.5, 10, 5, -12.5, 10, 5, 12.5, 10, -5, 12.5, -10, -5, -12.5, 10, -5, -12.5, -10, -5, 12.5, -10, -5, 12.5, 10, -5, 12.5, -10, -5, -12.5, 10, -5, -12.5 )
+
+[sub_resource type="PrismMesh" id=15]
+left_to_right = 1.0
+size = Vector3( 10, 5, 20 )
+
+[sub_resource type="ConvexPolygonShape" id=16]
+points = PoolVector3Array( 5, 2.5, 10, 5, 2.5, -10, 5, 2.5, 10, 5, 2.5, -10, -5, -2.5, 10, 5, -2.5, -10, 5, -2.5, 10, -5, -2.5, -10, 5, 2.5, 10, 5, 2.5, -10, 5, 2.5, -10, 5, 2.5, 10, 5, -2.5, 10, -5, -2.5, -10, 5, -2.5, -10, -5, -2.5, 10, -5, -2.5, 10, 5, -2.5, 10, -5, -2.5, -10, 5, -2.5, -10 )
 
 [node name="World" type="Spatial"]
 
@@ -219,7 +233,7 @@ path_continuous_u = false
 path_joined = false
 
 [node name="PathFollow" type="PathFollow" parent="PathC"]
-transform = Transform( 0.999976, 0.0067202, 0.00139, -0.00672018, 0.999977, -2.46919e-05, -0.00139013, 1.53503e-05, 0.999997, -253.074, -91.1041, 102.149 )
+transform = Transform( 0.999976, 0.0067202, 0.00139, -0.00672018, 0.999977, -2.46919e-05, -0.00139013, 1.53503e-05, 0.999997, -254.975, -91.0878, 102.168 )
 offset = 750.837
 rotation_mode = 0
 loop = false
@@ -252,7 +266,7 @@ transform = Transform( 0.642788, 0.323744, 0.694272, -2.95313e-07, -0.906308, 0.
 light_energy = 0.5
 shadow_enabled = true
 shadow_bias = 0.07
-directional_shadow_mode = 0
+directional_shadow_mode = 1
 directional_shadow_split_1 = 0.2
 directional_shadow_split_2 = 0.7
 directional_shadow_split_3 = 0.9
@@ -262,7 +276,7 @@ directional_shadow_normal_bias = 1.4
 [node name="Brushes" type="Spatial" parent="."]
 
 [node name="Rock1" type="MeshInstance" parent="Brushes"]
-transform = Transform( 0.99557, 0.0470107, -0.081425, 0, 0.866025, 0.5, 0.0940214, -0.497785, 0.862189, 9.11385, -10.2901, 27.3093 )
+transform = Transform( 0.99557, 0.0470107, -0.081425, 0, 0.866025, 0.5, 0.0940214, -0.497785, 0.862189, 9.24154, -10.2901, 27.3842 )
 mesh = SubResource( 8 )
 material/0 = null
 
@@ -319,5 +333,30 @@ shape = SubResource( 12 )
 [node name="CollisionShape4" type="CollisionShape" parent="Brushes/EndingFloor/StaticBody"]
 transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, -21, 11, 0 )
 shape = SubResource( 12 )
+
+[node name="Ramp" type="MeshInstance" parent="Brushes"]
+transform = Transform( -0.906308, 0, -0.422618, 0, 1, 0, 0.422618, 0, -0.906308, -12.0405, -54.7803, -19.7645 )
+mesh = SubResource( 13 )
+material/0 = null
+
+[node name="StaticBody" type="StaticBody" parent="Brushes/Ramp"]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape" type="CollisionShape" parent="Brushes/Ramp/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+shape = SubResource( 14 )
+
+[node name="Ramp2" type="MeshInstance" parent="Brushes"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 104.198, -5.61561, 0.0665293 )
+mesh = SubResource( 15 )
+material/0 = null
+
+[node name="StaticBody" type="StaticBody" parent="Brushes/Ramp2"]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape" type="CollisionShape" parent="Brushes/Ramp2/StaticBody"]
+shape = SubResource( 16 )
 
 [node name="RaceLogic" parent="." instance=ExtResource( 2 )]

@@ -17,6 +17,9 @@ var zoom_extent = {"in": 5, "out": 15}
 var y_inversion: int = -1 # some lazy enums
 var x_inversion: int = -1 # some lazy enums
 
+# input smoothing: (bad practice I know)
+var decay: float = 0.89
+
 export var stage_of_race: String = "ready"
 
 func _ready():
@@ -24,7 +27,7 @@ func _ready():
 
 func init():
 	CameraNode.set_translation(Vector3(10,0,0))
-	CamJoint.rotation_degrees = Vector3(180, 0, 15)
+	CamJoint.rotation_degrees = Vector3(0, 180, 35)
 	if invert_y: # I should learn how to use enums here instead
 		y_inversion = -1
 	else:
@@ -35,7 +38,6 @@ func init():
 		x_inversion = -1
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	$Rider/Meshes/EditorArrow.visible = false
-	$InfoBillboard/Rank.visible = false # because we're the player
 	$InfoBillboard/Time.visible = false
 
 func _input(event): # input only handles camera stuff
@@ -90,7 +92,12 @@ func _process(_delta):
 	elif Input.is_action_pressed("left"):
 		Rider.input_strength.x = Input.get_action_strength("left") * -1
 	else:
-		Rider.input_strength.x = 0
+		var round_check = Rider.input_strength.x
+		round_check *= decay
+		if abs(round_check) < 0.1:
+			round_check = 0
+		Rider.input_strength.x = round_check
+		
 	Rider.input_strength.normalized()
 
 	# jumping
@@ -109,6 +116,10 @@ func _process(_delta):
 		$UI/Margin/HBox/VBoxR/JumpInt.text = Rider.jump_strength as String
 		$UI/Margin/HBox/VBoxR/JumpInt/Progress.value = Rider.jump_strength
 		return
+	
+	# speedometer
+	
+	$UI/Margin/HBox/VBoxL/Panel2/Speed.text = "%7.3f" % [Rider.velocity_length - 4]
 
 
 func _on_FinishDetector_area_entered(area):
@@ -116,6 +127,6 @@ func _on_FinishDetector_area_entered(area):
 		stage_of_race = "finished"
 		var finish_timestamp = RaceSession.convert_msec_to_timestamp(RaceSession.get_time())
 		print_debug(finish_timestamp)
+		$InfoBillboard/Viewport/Margin/TimeLabel.text = finish_timestamp
 		$InfoBillboard/Time.visible = true
-		# todo: make the rank lock in at this point
-		$InfoBillboard/Rank.visible = true
+		# todo: make the time/rank lock in at this point
