@@ -44,7 +44,6 @@ func _physics_process(delta):
 	else:
 		rotation = rotation.move_toward(Vector3.UP, delta * 0.25)
 		turn_amount *= 0.8
-	
 	Meshes.set_rotation(Vector3(0, Meshes.rotation.y + (turn_amount / 2), 0))
 	Collision.set_rotation(Vector3(0, Collision.rotation.y + (turn_amount / 2), 0))
 	
